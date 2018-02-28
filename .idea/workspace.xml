@@ -59,15 +59,15 @@
       <file leaf-file-name="PaymentFlow-ClientToKatabat.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/PaymentFlow-ClientToKatabat.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+            <state relative-caret-position="373">
+              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
               <folding>
-                <element signature="e#4701#6149#0" expanded="false" />
-                <element signature="e#6153#7861#0" expanded="false" />
-                <element signature="e#7865#10316#0" expanded="false" />
-                <element signature="e#10684#12087#0" expanded="false" />
-                <element signature="e#13535#15628#0" expanded="false" />
-                <element signature="e#15632#19768#0" expanded="false" />
+                <element signature="e#4392#5840#0" expanded="false" />
+                <element signature="e#5844#7552#0" expanded="false" />
+                <element signature="e#7556#10007#0" expanded="false" />
+                <element signature="e#10375#11778#0" expanded="false" />
+                <element signature="e#13226#15319#0" expanded="false" />
+                <element signature="e#15323#19459#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -76,8 +76,8 @@
       <file leaf-file-name="PaymentFlow-KatabatToClient.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/PaymentFlow-KatabatToClient.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state relative-caret-position="867">
+              <caret line="58" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -223,8 +223,8 @@
         <option value="$PROJECT_DIR$/common/error.yml" />
         <option value="$PROJECT_DIR$/common/error.yaml" />
         <option value="$PROJECT_DIR$/spec/PaymentFlowClientApi.yml" />
-        <option value="$PROJECT_DIR$/spec/PaymentFlow-ClientToKatabat.yml" />
         <option value="$PROJECT_DIR$/spec/PaymentFlow-KatabatToClient.yml" />
+        <option value="$PROJECT_DIR$/spec/PaymentFlow-ClientToKatabat.yml" />
       </list>
     </option>
   </component>
@@ -461,6 +461,14 @@
       <workItem from="1519399506334" duration="30840000" />
       <workItem from="1519762531200" duration="8820000" />
     </task>
+    <task id="LOCAL-00001" summary="Update some of response objects.">
+      <created>1519798708455</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1519798708455</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -506,6 +514,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update some of response objects." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update some of response objects." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -852,23 +864,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/PaymentFlow-KatabatToClient.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="867">
+          <caret line="58" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/PaymentFlow-ClientToKatabat.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state relative-caret-position="373">
+          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding>
-            <element signature="e#4701#6149#0" expanded="false" />
-            <element signature="e#6153#7861#0" expanded="false" />
-            <element signature="e#7865#10316#0" expanded="false" />
-            <element signature="e#10684#12087#0" expanded="false" />
-            <element signature="e#13535#15628#0" expanded="false" />
-            <element signature="e#15632#19768#0" expanded="false" />
+            <element signature="e#4392#5840#0" expanded="false" />
+            <element signature="e#5844#7552#0" expanded="false" />
+            <element signature="e#7556#10007#0" expanded="false" />
+            <element signature="e#10375#11778#0" expanded="false" />
+            <element signature="e#13226#15319#0" expanded="false" />
+            <element signature="e#15323#19459#0" expanded="false" />
           </folding>
         </state>
       </provider>

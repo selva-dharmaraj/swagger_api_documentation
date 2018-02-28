@@ -6,14 +6,18 @@ info:
   description: "
   # Introduction
 
-  This document defines the contract (API) between katabat and client system in order to pull and push payment and related activities in real-time. Using this API services, the client system can take necessary business action with their payment provider and other critical systems in real-time.
+  This document defines the contract (API) between katabat and client system in order to pull and push
+  payment and related activities in real-time. Depends upon the business requirement, client system can
+  choose and expose specific services for integration.
 
 
   There is two set of integration specification provided in this document.
 
-  # Katabat Push / Pull Payment data from / To client system:
+  # Katabat to client System:
 
-  These transactions are triggered based on the various payment-related business action performed by Agent (or) Customer in Katabat System. Response from this API requests is updated directly in Katabat Unified Data Store. This means the transaction data are related results are immediately available for Agent and Customer with up to date status. In another way, Katabat system treats these call as synchronized and expect a result from client service in order to complete the business action taken by Agent / Customer.
+  These transactions are triggered based on the various payment-related activities performed by Agent (or) Customer
+  in Katabat System. In-order to enable these triggers at Katabat, client system must implement and the expose their service
+  following the specification provided in this document.
 
   # The Agent / Customer actions triggering these transactions are:
 
@@ -30,13 +34,18 @@ info:
   - Delete Scheduled payment.
 
 
-  As out of the box, Katabat system is equipped to push & pull data with any clients who can expose services by following the REST API guidelines provided in the document.
+  As out of the box, Katabat system is equipped to push & pull data with any clients who can expose services by
+  following the REST API guidelines provided in the document.
 
-  # Client Push / Pull Payment data from / to Katabat system:
+  # Client System to Katabat:
 
-  Similar to 'Katabat to client' payment data push specification, Katabat system exposed a set of standard API to all our clients to push real-time data from their system based on various events occurred.  The client can utilize these services to sync historical and active payment data from their system with Katabat system. These APIs are connected with Katabat UDS (Unified Data Store) which means the updated data will be immediately available for Agents and Customers.
+  Similar to 'Katabat to client System' service specification, Katabat system exposed set of standard API to all our
+  clients to push real-time data from their system based on various events occurred.  The client can utilize these
+  services to sync historical and active payment data from their system with Katabat system.
+  These APIs are connected with Katabat UDS (Unified Data Store) which means the updated data will be immediately
+  available for Agents and Customers.
 
-  # List of events from client system trigger these API calls are:
+  # List of events from client system might trigger these API calls are:
 
   - Payment status change (DELETED, REJECTED, PAID)
 
