@@ -11,7 +11,7 @@ info:
 
   There is two set of integration specification provided in this document.
 
-  # Push payment data from Katabat to client system:
+  # Katabat Push / Pull Payment data from / To client system:
 
   These transactions are triggered based on the various payment-related business action performed by Agent (or) Customer in Katabat System. Response from this API requests is updated directly in Katabat Unified Data Store. This means the transaction data are related results are immediately available for Agent and Customer with up to date status. In another way, Katabat system treats these call as synchronized and expect a result from client service in order to complete the business action taken by Agent / Customer.
 
@@ -32,7 +32,7 @@ info:
 
   As out of the box, Katabat system is equipped to push & pull data with any clients who can expose services by following the REST API guidelines provided in the document.
 
-  # Push payment data from Client to Katabat System:
+  # Client Push / Pull Payment data from / to Katabat system:
 
   Similar to 'Katabat to client' payment data push specification, Katabat system exposed a set of standard API to all our clients to push real-time data from their system based on various events occurred.  The client can utilize these services to sync historical and active payment data from their system with Katabat system. These APIs are connected with Katabat UDS (Unified Data Store) which means the updated data will be immediately available for Agents and Customers.
 
@@ -985,9 +985,11 @@ definitions:
           name: ErrorResponse
 
 # Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath:
- - /selva-dharmaraj/PaymentAPI/1.0.0
+#host: virtserver.swaggerhub.com
+#basePath:
+# - /selva-dharmaraj/PaymentAPI/1.0.0
+host: "developers.katabat.com"
+basePath: "/v1"
 schemes:
  - https
  - http
