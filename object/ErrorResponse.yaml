@@ -1,0 +1,31 @@
+# ~ErrorResponse ----------------------------
+
+ErrorResponse:
+    type: object
+    properties:
+        errorCode:
+            type: string
+        errorDescription:
+            type: string
+        errorDetails:
+            type: string
+        httpStatus:
+            type: string
+        requestReferenceNumber:
+            type: string
+        supplementErrorCode:
+            type: string
+        supplementErrorDescription:
+            type: string
+        timeStamp:
+            type: string
+        trace:
+            type: string
+        url:
+            type: string
+        validationErrors:
+            type: array
+            $ref: #definitians/FieldError
+
+    xml:
+        name: ErrorResponse

@@ -1,0 +1,20 @@
+# ~PaymentPutResponse ----------------------------
+
+  PaymentPutResponse:
+      type: object
+      required:
+      - fundingAccountToken
+      properties:
+          paymentReference:
+              type: string
+              example: ABC-1234
+          paymentId:
+              type: string
+          paymentStatus:
+              type: string
+          paymentProcessInfo:
+              $ref: #definitians/PaymentProcessInfo
+
+      xml:
+          name: PaymentPutResponse
+

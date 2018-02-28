@@ -1,0 +1,34 @@
+# ~PaymentAuditInfo ----------------------------
+PaymentAuditInfo:
+    type: object
+    properties:
+        batchDate:
+            type: string
+        createDate:
+            type: string
+        deletedAgentId:
+            type: integer
+            format: int64
+        deletedStatusDate:
+            type: string
+        insertBy:
+            type: string
+        lastUpdateDate:
+            type: string
+        paymentChannel:
+            type: string
+        paymentDeletedSource:
+            type: string
+        paymentType:
+            type: string
+        processedByBatch:
+            type: boolean
+        updateAgentId:
+            type: integer
+            format: int64
+        updatePaymentChannel:
+            type: string
+        updatePaymentDate:
+            type: string
+    xml:
+        name: PaymentAuditInfo

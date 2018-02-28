@@ -1,0 +1,10 @@
+# ~PaymentGetSingleResponse ----------------------------
+
+  PaymentGetSingleResponse:
+      type: object
+      properties:
+          payment:
+              $ref: '#/definitions/PaymentInfo'
+      xml:
+          name: PaymentGetSingleResponse
+

@@ -1,0 +1,9 @@
+# ~FundingAccountGetSingleResponse ----------------------------
+
+  FundingAccountGetSingleResponse:
+      type: object
+      properties:
+          fundingAccount:
+              $ref: '#/definitions/FundingAccountInfo'
+      xml:
+          name: FundingAccountGetSingleResponse

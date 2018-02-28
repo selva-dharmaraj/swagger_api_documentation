@@ -1,0 +1,77 @@
+  /paymentservice/payments/findByAccount:
+    post:
+    tags:
+      0: "Payments"
+    summary: "Pulls payments from the client"
+    description: "Service to call to refresh payments in Katabat System. Triggerd when Customer (or) Agent loads the account in Katabat system."
+    operationId: "retrievePayments"
+    consumes:
+      0: "application/json"
+    produces:
+      0: "application/xml"
+      1: "application/json"
+    parameters:
+      0:
+        in: "body"
+        name: "bodyRequest"
+        description: "bodyRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/CustomerAccountInfo"
+      1:
+        name: "startDate"
+        in: "query"
+        description: "startDate"
+        required: true
+        type: "string"
+      2:
+        name: "endDate"
+        in: "query"
+        description: "endDate"
+        required: false
+        type: "string"
+        default: "2999-12-31"
+      3:
+        name: "direction"
+        in: "query"
+        description: "direction"
+        required: false
+        type: "string"
+        default: "desc"
+      4:
+        name: "pageSize"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        default: 10
+        format: "int32"
+      5:
+        name: "pageNumber"
+        in: "query"
+        description: "pageNumber"
+        required: false
+        type: "integer"
+        default: 1
+        format: "int32"
+    responses:
+    200:
+      description: "OK"
+      schema:
+        $ref: "#/definitions/PaymentGetResponse"
+    401:
+      description: "Unauthorized"
+      schema:
+        $ref: "#/definitions/ErrorResponse"
+    403:
+      description: "Forbidden"
+      schema:
+        $ref: "#/definitions/ErrorResponse"
+    404:
+      description: "Not Found"
+      schema:
+        $ref: "#/definitions/ErrorResponse"
+    500:
+      description: "Invalid URI"
+      schema:
+        $ref: "#/definitions/ErrorResponse"

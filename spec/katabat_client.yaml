@@ -1,0 +1,583 @@
+-----------------------------------------------------------------------------------------------------------------------:
+-----------------------------------------------------------------------------------------------------------------------:
+Flow: KATABAT to CLIENT
+-----------------------------------------------------------------------------------------------------------------------:
+-----------------------------------------------------------------------------------------------------------------------:
+
+-----------------------------------------------------------------------------------------------------------------------:
+FUNDING ACCOUNTS:
+-----------------------------------------------------------------------------------------------------------------------:
+
+GET: Get all (or) funding account
+
+Single FA:
+
+Request: https://developers.katabat.com/v1/fundingservice/{customerId}/fundingaccount/{fundingaccountid}
+
+Response:
+{
+  "item": {
+    "achInfo": {
+      "bankName": "string",
+      "fundingAccountNumber": "string",
+      "holderFullName": "string",
+      "routingNumber": "string",
+      "subType": "Checking"
+    },
+    "cardInfo": {
+      "addressInfo": {
+        "address1": "string",
+        "address2": "string",
+        "address3": "string",
+        "address4": "string",
+        "city": "string",
+        "country": "string",
+        "postCode": "string",
+        "province": "string"
+      },
+      "cvv": "string",
+      "expiryDate": "string",
+      "fundingAccountNumber": "string",
+      "holderFullName": "string",
+      "subType": "Visa"
+    },
+    "createDate": "string",
+    "fundingAccountSummary": {
+      "bankName": "string",
+      "fundingAccountId": 0,
+      "last4FundingAccountNum": "string",
+      "nickName": "string",
+      "subType": "For CARD || DEBITCARD || CREDITCARD allowed Values are Visa",
+      "type": "CreditCard"
+    },
+    "lastUpdateDate": "string",
+    "level": "customer",
+    "originalAccountNumber": "string",
+    "primary": false,
+    "ucid": "string"
+  },
+  "requestReferenceNumber": "string"
+}
+
+Multiple FA:
+
+Request: https://developers.katabat.com/v1/fundingservice/fundingaccounts/{customerId}
+
+{
+  "fundingAccounts": [
+    {
+      "achInfo": {
+        "bankName": "string",
+        "fundingAccountNumber": "string",
+        "holderFullName": "string",
+        "routingNumber": "string",
+        "subType": "Checking|Saving"
+      },
+      "cardInfo": {
+        "addressInfo": {
+          "address1": "string",
+          "address2": "string",
+          "address3": "string",
+          "address4": "string",
+          "city": "string",
+          "country": "string",
+          "postCode": "string",
+          "province": "string"
+        },
+        "cvv": "string",
+        "expiryDate": "string",
+        "fundingAccountNumber": "string",
+        "holderFullName": "string",
+        "type": "CreditCard | DebitCard"
+        "subType": "Visa"
+      },
+      "fundingAccountSummary": {
+        "bankName": "string",
+        "fundingAccountId": 0,
+        "last4FundingAccountNum": "string",
+        "nickName": "string",
+        "subType": "For CARD || DEBITCARD || CREDITCARD allowed Values are Visa",
+        "type": "CreditCard"
+      },
+      "createDate": "string",
+      "fundingAccountId": 0,
+      "fundingAccountReference": "string",
+      "lastUpdateDate": "string",
+      "level": "customer",
+      "originalAccountNumber": "string",
+      "default": false,
+      "customerId": "string"
+    }
+  ],
+  "pageNumber": 0,
+  "pageSize": 0,
+  "requestReferenceNumber": "string",
+  "totalItems": 0,
+  "totalPages": 0
+}
+
+-----------------------------------------------------------------------------------------------------------------------:
+
+POST: create funding account
+
+Request: https://developers.katabat.com/v1/fundingservice/{customerId}/fundingaccount/{fundingaccountid}
+
+Request:
+
+{
+  "achInfo": {
+    "bankName": "string",
+    "fundingAccountNumber": "string",
+    "holderFullName": "string",
+    "routingNumber": "string",
+    "subType": "Checking"
+  },
+  "cardInfo": {
+    "addressInfo": {
+      "address1": "string",
+      "address2": "string",
+      "address3": "string",
+      "address4": "string",
+      "city": "string",
+      "country": "string",
+      "postCode": "string",
+      "province": "string"
+    },
+    "cvv": "string",
+    "expiryDate": "string",
+    "fundingAccountNumber": "string",
+    "holderFullName": "string",
+    "subType": "Visa"
+  },
+  "level": "customer",
+  "nickName": "string",
+  "originalAccountNumber": "string",
+  "primary": false,
+  "type": "CreditCard",
+  "originalAccountNumber": "string",
+  "customerId": "string"
+}
+
+Response:
+
+{
+  "item": {
+    "fundingAccountSummary": {
+      "bankName": "string",
+      "fundingAccountId": 0,
+      "fundingAccountNumber": "string",
+      "last4FundingAccountNum": "string",
+      "nickName": "string",
+      "subType": "For CARD || DEBITCARD || CREDITCARD allowed Values are Visa",
+      "type": "CreditCard"
+    },
+    "level": "customer",
+    "primary": false
+  },
+  "transactionReferenceNumber": "string"
+}
+
+-----------------------------------------------------------------------------------------------------------------------:
+
+DELETE: Delete Funding Account
+
+Request: https://developers.katabat.com/v1/fundingservice/fundingaccount/{fundingaccountreferencenumber}
+
+Response:
+{
+  "body": {},
+  "statusCode": "100"
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------------------:
+PAYMENT:
+-----------------------------------------------------------------------------------------------------------------------:
+
+Getting Payments:
+POST: https://developers.katabat.com/v1/paymentservice/payments/findByAccount
+
+Request:
+
+{
+  "originalAccountNumber": "string"
+}
+
+Response:
+
+{
+  "items": [
+    {
+      "achInfo": {
+        "bankName": "string",
+        "fundingAccountNumber": "string",
+        "holderFullName": "string",
+        "routingNumber": "string",
+        "subType": "Checking"
+      },
+      "cardInfo": {
+        "addressInfo": {
+          "address1": "string",
+          "address2": "string",
+          "address3": "string",
+          "address4": "string",
+          "city": "string",
+          "country": "string",
+          "postCode": "string",
+          "province": "string"
+        },
+        "cvv": "string",
+        "expiryDate": "string",
+        "fundingAccountNumber": "string",
+        "holderFullName": "string",
+        "subType": "Visa"
+      },
+      "fundingAccountSummary": {
+        "bankName": "string",
+        "fundingAccountId": 0,
+        "last4FundingAccountNum": "string",
+        "nickName": "string",
+        "subType": "For CARD || DEBITCARD || CREDITCARD allowed Values are Visa",
+        "type": "CreditCard"
+      },
+      "paymentAuditInfo": {
+        "batchDate": "string",
+        "createDate": "string",
+        "deletedAgentId": 0,
+        "deletedStatusDate": "string",
+        "insertBy": "string",
+        "lastUpdateDate": "string",
+        "paymentChannel": "string",
+        "paymentDeletedSource": "string",
+        "paymentType": "string",
+        "processedByBatch": true,
+        "updateAgentId": 0,
+        "updatePaymentChannel": "string",
+        "updatePaymentDate": "string"
+      },
+      "paymentBasicInfo": {
+        "amount": 0,
+        "currency": "string",
+        "originalAccountNumber": "string",
+        "paymentDate": "string",
+        "ucid": "string"
+      },
+      "paymentId": 0,
+      "paymentProcessInfo": {
+        "authCode": "string",
+        "paymentReferenceNumber": "string",
+        "paidStatusDate": "string",
+        "paymentStatusCode": "string",
+        "postDate": "string",
+        "processDate": "string",
+        "rejectedAtAuthorizationDate": "string",
+        "rejectedStatusDate": "string",
+        "statusDescription": "string"
+      },
+      "paymentStatus": "string"
+    }
+  ],
+  "pageNumber": 0,
+  "pageSize": 0,
+  "requestReferenceNumber": "string",
+  "totalItems": 0,
+  "totalPages": 0
+}
+
+-----------------------------------------------------------------------------------------------------------------------:
+
+Create Payments:
+
+POST:
+  Single:
+
+Request: https://developers.katabat.com/v1/paymentservice/payments/single
+
+Request:
+
+{
+  "fundingSourceInfo": {
+    "achInfo": {
+      "bankName": "string",
+      "fundingAccountNumber": "string",
+      "holderFullName": "string",
+      "routingNumber": "string",
+      "subType": "Checking"
+    },
+    "cardInfo": {
+      "addressInfo": {
+        "address1": "string",
+        "address2": "string",
+        "address3": "string",
+        "address4": "string",
+        "city": "string",
+        "country": "string",
+        "postCode": "string",
+        "province": "string"
+      },
+      "cvv": "string",
+      "expiryDate": "string",
+      "fundingAccountNumber": "string",
+      "holderFullName": "string",
+      "subType": "Visa"
+    },
+    "fundingAccountId": 0,
+    "fundingAccountReference": "string",
+    "fundingAccountSource": "existing",
+    "level": "customer",
+    "nickName": "string",
+    "primary": false,
+    "saveForFuture": false,
+    "type": "CreditCard"
+  },
+  "paymentBasicInfo": {
+    "amount": 0,
+    "currency": "string",
+    "originalAccountNumber": "string",
+    "paymentDate": "string",
+    "ucid": "string",
+    "paymentId": "string"
+  },
+  "paymentChannel": "APPAPI"
+}
+
+Response:
+
+{
+  "item": {
+    "fundingAccountResponse": {
+      "fundingAccountSummary": {
+        "fundingAccountId": "string",
+        "fundingAccountReference": "string",
+        "bankName": "string",
+        "fundingAccountId": 0,
+        "last4FundingAccountNum": "string",
+        "nickName": "string",
+        "subType": "For CARD || DEBITCARD || CREDITCARD allowed Values are Visa",
+        "type": "CreditCard"
+      },
+      "level": "customer",
+      "primary": false
+    },
+    "paymentId": 0,
+    "paymentReference": "string",
+    "paymentProcessInfo": {
+      "paymentReference": "string",
+      "authCode": "string",
+      "externalReferenceNumber": "string",
+      "paidStatusDate": "string",
+      "paymentStatusCode": "string",
+      "postDate": "string",
+      "processDate": "string",
+      "rejectedAtAuthorizationDate": "string",
+      "rejectedStatusDate": "string",
+      "statusDescription": "string"
+    },
+    "paymentProcessingError": "string",
+    "paymentStatus": "string"
+  },
+  "requestReferenceNumber": "string"
+}
+
+POST:
+  Multiple:
+
+Request: https://developers.katabat.com/v1/paymentservice/payments/multiple
+
+Request:
+
+[
+  {
+    "fundingSourceInfo": {
+      "achInfo": {
+        "bankName": "string",
+        "fundingAccountNumber": "string",
+        "holderFullName": "string",
+        "routingNumber": "string",
+        "subType": "Checking"
+      },
+      "cardInfo": {
+        "addressInfo": {
+          "address1": "string",
+          "address2": "string",
+          "address3": "string",
+          "address4": "string",
+          "city": "string",
+          "country": "string",
+          "postCode": "string",
+          "province": "string"
+        },
+        "cvv": "string",
+        "expiryDate": "string",
+        "fundingAccountNumber": "string",
+        "holderFullName": "string",
+        "subType": "Visa"
+      },
+      "fundingAccountId": 0,
+      "fundingAccountReference": "string",
+      "fundingAccountSource": "existing",
+      "level": "customer",
+      "nickName": "string",
+      "primary": false,
+      "saveForFuture": false,
+      "type": "CreditCard"
+    },
+    "paymentBasicInfo": {
+      "amount": 0,
+      "currency": "string",
+      "originalAccountNumber": "string",
+      "paymentDate": "string",
+      "ucid": "string",
+      "paymentId": "string"
+    },
+    "paymentChannel": "APPAPI"
+  }
+]
+
+Response:
+
+{
+  "items": [
+    {
+      "fundingAccountResponse": {
+        "fundingAccountSummary": {
+          "fundingAccountId": "string",
+          "fundingAccountReference": "string",
+          "bankName": "string",
+          "fundingAccountId": 0,
+          "last4FundingAccountNum": "string",
+          "nickName": "string",
+          "subType": "For CARD || DEBITCARD || CREDITCARD allowed Values are Visa",
+          "type": "CreditCard"
+        },
+        "level": "customer",
+        "primary": false
+      },
+      "paymentGroupId": 0,
+      "paymentId": 0,
+      "paymentProcessInfo": {
+        "paymentReference": "string",
+        "authCode": "string",
+        "externalReferenceNumber": "string",
+        "paidStatusDate": "string",
+        "paymentStatusCode": "string",
+        "postDate": "string",
+        "processDate": "string",
+        "rejectedAtAuthorizationDate": "string",
+        "rejectedStatusDate": "string",
+        "statusDescription": "string"
+      },
+      "paymentProcessingError": "string",
+      "paymentStatus": "string"
+    }
+  ],
+  "requestReferenceNumber": "string"
+}
+
+-----------------------------------------------------------------------------------------------------------------------:
+
+PUT:
+
+Update Payment: https://developers.katabat.com/v1/paymentservice/payments/{paymentId}
+
+Request:
+
+{
+  "fundingSourceInfo": {
+    "achInfo": {
+      "bankName": "string",
+      "fundingAccountNumber": "string",
+      "holderFullName": "string",
+      "routingNumber": "string",
+      "subType": "Checking"
+    },
+    "cardInfo": {
+      "addressInfo": {
+        "address1": "string",
+        "address2": "string",
+        "address3": "string",
+        "address4": "string",
+        "city": "string",
+        "country": "string",
+        "postCode": "string",
+        "province": "string"
+      },
+      "cvv": "string",
+      "expiryDate": "string",
+      "fundingAccountNumber": "string",
+      "holderFullName": "string",
+      "subType": "Visa"
+    },
+    "fundingAccountId": 0,
+    "fundingAccountReference": "string",
+    "fundingAccountSource": "existing",
+    "level": "customer",
+    "nickName": "string",
+    "primary": false,
+    "saveForFuture": false,
+    "type": "CreditCard"
+  },
+  "paymentBasicInfo": {
+    "amount": 0,
+    "currency": "string",
+    "originalAccountNumber": "string",
+    "paymentDate": "string",
+    "ucid": "string",
+    "paymentReference": "string",
+    "paymentId": "string"
+  },
+  "paymentChannel": "APPAPI"
+}
+
+
+Response:
+
+{
+  "item": {
+    "fundingAccountResponse": {
+      "fundingAccountSummary": {
+        "bankName": "string",
+        "fundingAccountId": 0,
+        "last4FundingAccountNum": "string",
+        "nickName": "string",
+        "subType": "For CARD || DEBITCARD || CREDITCARD allowed Values are Visa",
+        "type": "CreditCard"
+      },
+      "level": "customer",
+      "primary": false
+    },
+    "paymentGroupId": 0,
+    "paymentId": 0,
+    "paymentProcessInfo": {
+      "authCode": "string",
+      "externalReferenceNumber": "string",
+      "paidStatusDate": "string",
+      "paymentStatusCode": "string",
+      "postDate": "string",
+      "processDate": "string",
+      "rejectedAtAuthorizationDate": "string",
+      "rejectedStatusDate": "string",
+      "statusDescription": "string"
+    },
+    "paymentProcessingError": "string",
+    "paymentStatus": "string"
+  },
+  "requestReferenceNumber": "string"
+}
+
+-----------------------------------------------------------------------------------------------------------------------:
+
+DELETE:
+
+
+Request: https://developers.katabat.com/v1/paymentservice/payments/{paymentId}
+
+Response:
+
+{
+  "body": {},
+  "statusCode": "100"
+}
+
+-----------------------------------------------------------------------------------------------------------------------:

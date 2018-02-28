@@ -1,0 +1,14 @@
+# ~FundingAccountPostResponse ----------------------------
+
+  FundingAccountPostResponse:
+      type: object
+      required:
+      - fundingAccountToken
+      properties:
+          fundingAccountToken:
+              type: string
+              example: ABC-1234
+          fundingAccountId:
+              type: string
+      xml:
+          name: FundingAccountPostResponse

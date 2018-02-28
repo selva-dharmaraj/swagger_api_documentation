@@ -1,0 +1,21 @@
+# ~FieldErrors ----------------------------
+
+  FieldError:
+      type: object
+      properties:
+          field:
+              type: string
+          message:
+              type: string
+      xml:
+          name: FieldError
+
+  FieldErrors:
+      type: object
+      properties:
+          fieldErrors:
+              type: array
+              items:
+                  $ref: "#/definitions/FieldError"
+      xml:
+          name: FieldErrors

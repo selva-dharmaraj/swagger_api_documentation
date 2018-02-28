@@ -1,0 +1,11 @@
+# ~FundingAccountGetResponse ----------------------------
+
+  FundingAccountGetResponse:
+      type: object
+      properties:
+          fundingAccounts:
+              type: array
+              items:
+                $ref: '#/definitions/FundingAccountInfo'
+      xml:
+          name: FundingAccountGetResponse

@@ -1,0 +1,25 @@
+# ~PaymentProcessInfo ----------------------------
+
+  PaymentProcessInfo:
+      type: object
+      properties:
+          authCode:
+              type: string
+          externalReferenceNumber:
+              type: string
+          paidStatusDate:
+              type: string
+          paymentStatusCode:
+              type: string
+          postDate:
+              type: string
+          processDate:
+              type: string
+          rejectedAtAuthorizationDate:
+              type: string
+          rejectedStatusDate:
+              type: string
+          statusDescription:
+              type: string
+      xml:
+          name: PaymentProcessInfo

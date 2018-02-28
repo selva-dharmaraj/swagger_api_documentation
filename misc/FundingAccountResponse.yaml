@@ -1,0 +1,21 @@
+# ~Funding Account Info ----------------------------
+
+  FundingAccountResponse:
+      type: object
+      required:
+      - achInfo
+      properties:
+          items:
+              $ref: '#/definitions/FundingAccountSummaryInfo'
+          accountSummaryInfo:
+              $ref: '#/definitions/AccountSummaryInfo'
+          level:
+              type: string
+              example: customer
+          default:
+              type: boolean
+          type:
+              type: string
+              example: CreditCard | DebitCard | ACH
+      xml:
+          name: FundingAccountInfo

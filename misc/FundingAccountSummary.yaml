@@ -1,0 +1,26 @@
+# ~FundingAccountSummary ----------------------------
+  FundingAccountSummaryInfo:
+      type: object
+      required:
+      - fundingAccountNumber
+      - expiryDate
+      properties:
+          bankName:
+              type: string
+              example: Wellsfago
+          last4FundingAccountNum:
+              type: string
+              example: '1111'
+          nickName:
+              type: string
+              example: New Card
+          subType:
+              type: string
+              example: For CARD || DEBITCARD || CREDITCARD allowed Values are Visa
+          type:
+              type: string
+              example: CreditCard
+          default:
+              type: string
+      xml:
+          name: FundingAccountSummary

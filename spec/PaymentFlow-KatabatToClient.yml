@@ -1,0 +1,935 @@
+swagger: "2.0"
+
+# Introduction ---------------------------------------------------------------------------------------------------------
+info:
+  title: "Katabat Payment API Integration - Specification Document"
+  description: "
+  # Introduction
+
+  This document defines the contract (API) between katabat and client system in order to pull and push payment and related activities in real-time. Using this API services, the client system can take necessary business action with their payment provider and other critical systems in real-time.
+
+
+  There is two set of integration specification provided in this document.
+
+  # Push payment data from Katabat to client system:
+
+  These transactions are triggered based on the various payment-related business action performed by Agent (or) Customer in Katabat System. Response from this API requests is updated directly in Katabat Unified Data Store. This means the transaction data are related results are immediately available for Agent and Customer with up to date status. In another way, Katabat system treats these call as synchronized and expect a result from client service in order to complete the business action taken by Agent / Customer.
+
+  # The Agent / Customer actions triggering these transactions are:
+
+  - Add Payment Method (ACH / Card)
+
+  - Delete Payment Method
+
+  - Submit payment to be processed
+
+  - Schedule payments for future processing.
+
+  - Update scheduled payment.
+
+  - Delete Scheduled payment.
+
+
+  As out of the box, Katabat system is equipped to push & pull data with any clients who can expose services by following the REST API guidelines provided in the document.
+
+  # Push payment data from Client to Katabat System:
+
+  Similar to 'Katabat to client' payment data push specification, Katabat system exposed a set of standard API to all our clients to push real-time data from their system based on various events occurred.  The client can utilize these services to sync historical and active payment data from their system with Katabat system. These APIs are connected with Katabat UDS (Unified Data Store) which means the updated data will be immediately available for Agents and Customers.
+
+  # List of events from client system trigger these API calls are:
+
+  - Payment status change (DELETED, REJECTED, PAID)
+
+  - Payments created outside katabat system (Check payments)
+
+  - Funding accounts added outside katabat system.
+
+  - Funding accounts deleted outside katabat system.
+
+
+  ## Technical Overview:
+
+  These specifications are for consuming and exposing data through REST API. REpresentational State Transfer (REST), or RESTful, web services provide interoperability between computer systems on the Internet.   The operations performed using the predefined CRUD HTTP methods GET, POST, PUT, DELETE. We support both data exchange formats JSON and XML based your implementation need.
+
+  # Authorization:
+
+  Services are accessible through only HTTPS (SSL) layer. Out of the box, Katabat supports two authorization option to consume your API service.
+
+  # API Token
+
+  Access token will be shared between system. Every request header must have the access token in order to access the service. If not '401 Unauthorized' HTTP status code should be returned.
+
+
+      ***[HTTP Header]***
+
+      `Authorization: apptoken {{apptoken}}`
+
+  # Basic Authorization
+
+  User account (name, password) is shared between systems. Every request header must have the access token in order to access the service. If not '401 Unauthorized' HTTP status code should be returned.
+
+
+      ***[HTTP Header]***
+
+      `Authorization: Basic a2F0YWJhdDokNGIyOWM5OTMtMTRmMy00YTZjLTg3OGUtN2ZiNTAwN2JkYTYw`
+
+
+  Additional Authorization is supported based on the request:
+
+
+  JWT (JSON Web Token)
+
+  OAuth 2.0
+
+  "
+  version: "1.0.0"
+  termsOfService: "http://katabat.com/"
+  contact:
+    email: "sdharmaraj@katabat.com"
+  license:
+    name: "Katabat"
+    url: "http://www.katabat.com"
+# host: "developers.katabat.com"
+# basePath: "/v1"
+externalDocs:
+  description: "Find out more about Katabat product"
+  url: "https://cmcwiki.atlassian.net/wiki/discover/all-updates"
+
+# Tags -----------------------------------------------------------------------------------------------------------------
+
+tags:
+- name: "Funding Accounts"
+  description: "Katabat system uses this service exposed by client to sync up funding accounts data between Systems"
+
+- name: "Payments"
+  description: "Katabat system uses this service exposed by client to sync up payment data between systems"
+
+# Schemes --------------------------------------------------------------------------------------------------------------
+
+# schemes:
+# - "http"
+
+paths:
+
+  /fundingaccountservice/fundingaccounts:
+    post:
+      tags:
+      - "Funding Accounts"
+      summary: "Sends created funding account to clients system"
+      description: "Triggered when customer (or) agent add new payment method in Katabat system."
+      operationId: "createFundingAccount"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Funding account created"
+        required: true
+        schema:
+          $ref: "#/definitions/FundingAccountInfo"
+      responses:
+        201:
+          description: 'Funding Account successfully added'
+          schema:
+            $ref: '#/definitions/FundingAccountPostResponse'
+        400:
+          description: "Invalid Data provided in the request body. Please refer to the Error object for more details"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        401:
+          description: "Unauthorized access to use this resource"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        403:
+          description: "Forbidden operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+
+  /fundingaccountservice/fundingaccounts/customer/${customerId}:
+    get:
+      tags:
+      - "Funding Accounts"
+      summary: "Pull all funding accounts for the customer"
+      description: "Triggered when customer (or) agent loads the account in Katabat system."
+      operationId: "retrieveFundingAccounts"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        required: true
+        type:  "string"
+        description: "UCID (Unique customer identification number)"
+
+      - name: "direction"
+        in: "query"
+        description: "direction"
+        required: false
+        type: "string"
+        default: "desc"
+
+      - name: "pageSize"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        default: 10
+        format: "int32"
+
+      - name: "pageNumber"
+        in: "query"
+        description: "pageNumber"
+        required: false
+        type: "integer"
+        default: 1
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/FundingAccountGetResponse"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Invalid URI"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+
+  /fundingaccountservice/fundingaccounts/${fundingAccountId}:
+    get:
+      tags:
+      - "Funding Accounts"
+      summary: "Pull single funding account from client system"
+      description: "Not In Use"
+      operationId: "getFundingAccount"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "fundingAccountId"
+        in: "path"
+        required: true
+        type: "integer"
+        minimum: 1.0
+        format: "int64"
+        description: "ID of funding account to be deleted"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/FundingAccountGetSingleResponse"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Invalid URI"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+    delete:
+      tags:
+      - "Funding Accounts"
+      summary: "Sends deleted funding account to client system"
+      description: "Triggered when Customer (or) Agent deletes funding account in Katabat System"
+      operationId: "deleteFundingAccount"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "fundingAccountId"
+        in: "path"
+        description: "ID of funding account to be deleted"
+        required: true
+        type: "integer"
+        minimum: 1.0
+        format: "int64"
+      responses:
+        204:
+          description: "Funding account Successfully Deleted!"
+        401:
+          description: "Unauthorized access to use this resource"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        403:
+          description: "Forbidden operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Funding with the given {fundingAccountId} does not exist"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+
+  /paymentservice/payments:
+    post:
+      tags:
+      - "Payments"
+      summary: "Sends payments to client system"
+      description: "Triggered when customer (or) agent create payments in Katabat system."
+      operationId: "createPayment"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Payment that needs to be sent to client"
+        required: true
+        schema:
+          $ref: "#/definitions/PaymentInfo"
+      responses:
+        201:
+          description: 'Payment successfully added'
+          schema:
+            $ref: '#/definitions/PaymentPostResponse'
+        400:
+          description: "Invalid Data provided in the request body. Please refer to the Error object for more details"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        401:
+          description: "Unauthorized access to use this resource"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        403:
+          description: "Forbidden operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+
+  /paymentservice/payments/findByAccount:
+    post:
+      tags:
+      - "Payments"
+      summary: "Pulls payments from the client system"
+      description: "Triggered when customer (or) agent loads the account in Katabat system."
+      operationId: "retrievePayments"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+        - in: "body"
+          name: "bodyRequest"
+          description: "bodyRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/CustomerAccountInfo"
+
+        - name: "startDate"
+          in: "query"
+          description: "startDate"
+          required: true
+          type: "string"
+
+        - name: "endDate"
+          in: "query"
+          description: "endDate"
+          required: false
+          type: "string"
+          default: "2999-12-31"
+
+        - name: "direction"
+          in: "query"
+          description: "direction"
+          required: false
+          type: "string"
+          default: "desc"
+
+        - name: "pageSize"
+          in: "query"
+          description: "pageSize"
+          required: false
+          type: "integer"
+          default: 10
+          format: "int32"
+
+        - name: "pageNumber"
+          in: "query"
+          description: "pageNumber"
+          required: false
+          type: "integer"
+          default: 1
+          format: "int32"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PaymentGetResponse"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Invalid URI"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+
+  /paymentservice/payments/${paymentId}:
+    put:
+      tags:
+      - "Payments"
+      summary: "Sends payments update to client system"
+      description: "Triggered when customer (or) agent edit payment in Katabat system."
+      operationId: "updatePayment"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "paymentId"
+        in: "path"
+        description: "Internal PaymentId"
+        required: true
+        type: "integer"
+        format:  "int64"
+      - in: "body"
+        name: "body"
+        description: "Payment that needs to be updated in client system"
+        required: true
+        schema:
+          $ref: "#/definitions/PaymentInfo"
+      responses:
+        202:
+          description: "Accepted"
+          schema:
+            $ref: "#/definitions/PaymentPutResponse"
+        400:
+            description: Invalid Data provided in the request body. Please refer to the Error object for more details
+            schema:
+                $ref: '#/definitions/ErrorResponse'
+        401:
+            description: Unauthorized access to use this resource
+            schema:
+                $ref: '#/definitions/ErrorResponse'
+        403:
+            description: Forbidden operation
+            schema:
+                $ref: '#/definitions/ErrorResponse'
+        404:
+            description: Payment with the given paymentId does not exist
+            schema:
+                $ref: '#/definitions/ErrorResponse'
+        500:
+            description: Internal Server Error
+            schema:
+                $ref: '#/definitions/ErrorResponse'
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+    delete:
+      tags:
+      - "Payments"
+      summary: "Signals payments deletion to client system"
+      description: "Triggered when Customer (or) Agent deletes Payment in Katabat System"
+      operationId: "deletePayment"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "paymentId"
+        in: "path"
+        description: "Internal PaymentId"
+        required: true
+        type: "integer"
+        format:  "int64"
+      responses:
+        204:
+          description: "Payment Successfully marked as Deleted!"
+        401:
+          description: "Unauthorized access to use this resource"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        403:
+          description: "Forbidden operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Payment with the given {paymentId} does not exist"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+    get:
+      tags:
+      - "Payments"
+      summary: "Pull single payment from client system"
+      description: "Not In Use. Can be extended for single payment pull to Katabat from client system"
+      operationId: "retrievePayment"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "paymentId"
+        in: "path"
+        required: true
+        type:  "integer"
+        format:  "int64"
+        description: "Payment Id"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+              $ref: "#/definitions/PaymentGetSingleResponse"
+        401:
+          description: "Unauthorized access"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        403:
+          description: "Forbidden operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Payment with the given {paymentId} does not exist"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+
+# Security Definitions -------------------------------------------------------------------------------------------------
+
+securityDefinitions:
+  BasicAuth:
+    type: basic
+
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: X-API-Key
+
+# Definitions ----------------------------------------------------------------------------------------------------------
+
+definitions:
+
+# ~AchInfo ----------------------------
+
+  AchInfo:
+      type: object
+      required:
+      - fundingAccountNumber
+      - routingNumber
+      properties:
+          bankName:
+              type: string
+              example: Wellsfargo
+          fundingAccountNumber:
+              type: string
+              example: '3444539219'
+          routingNumber:
+              type: string
+              example: '091000019'
+          holderFullName:
+              type: string
+              example: Samuel Isac
+          subType:
+              type: string
+              example: CHECKING | SAVING
+      xml:
+          name: AchInfo
+
+# ~AddressInfo ----------------------------
+
+  AddressInfo:
+      type: object
+      required:
+      - address1
+      - city
+      - country
+      - postCode
+      - province
+      properties:
+          address1:
+              type: string
+          address2:
+              type: string
+          address3:
+              type: string
+          address4:
+              type: string
+          city:
+              type: string
+          country:
+              type: string
+          postCode:
+              type: string
+          province:
+              type: string
+      xml:
+          name: AddressInfo
+
+# ~CardInfo ----------------------------
+
+  CardInfo:
+      type: object
+      required:
+      - fundingAccountNumber
+      - expiryDate
+      properties:
+          cvv:
+              type: string
+              example: '123'
+          fundingAccountNumber:
+              type: string
+              example: '4111111111111111'
+          expiryDate:
+              type: string
+              example: MMYY
+          holderFullName:
+              type: string
+              example: Samuel Isac
+          subType:
+              type: string
+              example: Visa | Master
+          addressInfo:
+              $ref: "#/definitions/AddressInfo"
+      xml:
+          name: CardInfo
+
+# ~CustomerAccountInfo ----------------------------
+
+  CustomerAccountInfo:
+      type: object
+      required:
+      - originalAccountNumber
+      properties:
+          originalAccountNumber:
+              type: string
+          customerId:
+              type: string
+      xml:
+          name: CustomerAccountInfo
+
+# ~Funding Account Info ----------------------------
+
+  FundingAccountInfo:
+      type: object
+      required:
+      - achInfo
+      properties:
+          achInfo:
+              $ref: '#/definitions/AchInfo'
+          cardInfo:
+              $ref: '#/definitions/CardInfo'
+          customerAccountInfo:
+              $ref: '#/definitions/CustomerAccountInfo'
+          level:
+              type: string
+              example: customer
+          default:
+              type: boolean
+          type:
+              type: string
+              example: CreditCard | DebitCard | ACH
+          fundingAccountReference:
+              type: string
+              example: ABC-1234
+          fundingAccountId:
+              type: string
+      xml:
+          name: FundingAccountInfo
+
+# ~FundingAccountGetResponse ----------------------------
+
+  FundingAccountGetResponse:
+      type: object
+      properties:
+          fundingAccounts:
+              type: array
+              items:
+                $ref: '#/definitions/FundingAccountInfo'
+      xml:
+          name: FundingAccountGetResponse
+
+# ~FundingAccountGetSingleResponse ----------------------------
+
+  FundingAccountGetSingleResponse:
+      type: object
+      properties:
+          fundingAccount:
+              $ref: '#/definitions/FundingAccountInfo'
+      xml:
+          name: FundingAccountGetSingleResponse
+
+
+# ~FundingAccountPostResponse ----------------------------
+
+  FundingAccountPostResponse:
+      type: object
+      required:
+      - fundingAccountReference
+      properties:
+          fundingAccountReference:
+              type: string
+              example: ABC-1234
+          fundingAccountId:
+              type: string
+      xml:
+          name: FundingAccountPostResponse
+
+# ~PaymentBasicInfo ----------------------------
+
+  PaymentBasicInfo:
+      type: object
+      required:
+      - amount
+      properties:
+          amount:
+              type: number
+              format: double
+              description: Payment amount
+          currency:
+              type: string
+              description: Currency
+          paymentDate:
+              type: string
+              description: This field needs to be filled if fundingAccountSource = new
+      xml:
+          name: PaymentBasicInfo
+
+# ~PaymentProcessInfo ----------------------------
+
+  PaymentProcessInfo:
+      type: object
+      properties:
+          authCode:
+              type: string
+          paidStatusDate:
+              type: string
+          paymentStatusCode:
+              type: string
+          postDate:
+              type: string
+          processDate:
+              type: string
+          rejectedAtAuthorizationDate:
+              type: string
+          rejectedStatusDate:
+              type: string
+          statusDescription:
+              type: string
+      xml:
+          name: PaymentProcessInfo
+
+# ~PaymentInfo ----------------------------
+
+  PaymentInfo:
+      type: object
+      required:
+      - fundingAccount
+      properties:
+          fundingAccount:
+              $ref: '#/definitions/FundingAccountInfo'
+          paymentBasicInfo:
+              $ref: '#/definitions/PaymentBasicInfo'
+          customerAccountInfo:
+              $ref: '#/definitions/CustomerAccountInfo'
+          paymentStatus:
+              type: string
+              enum: [INPROCESS, SCHEDULED, REJECTED, PAID, DELETED]
+          paymentReference:
+              type: string
+              example: ABC-1234
+          paymentId:
+              type: string
+      xml:
+          name: PaymentInfo
+
+# ~PaymentGetResponse ----------------------------
+
+  PaymentGetResponse:
+      type: object
+      properties:
+          payments:
+              type: array
+              items:
+                $ref: '#/definitions/PaymentInfo'
+      xml:
+          name: PaymentGetResponse
+
+# ~PaymentGetSingleResponse ----------------------------
+
+  PaymentGetSingleResponse:
+      type: object
+      properties:
+          payment:
+              $ref: '#/definitions/PaymentInfo'
+      xml:
+          name: PaymentGetSingleResponse
+
+# ~PaymentPostResponse ----------------------------
+
+  PaymentPostResponse:
+      type: object
+      required:
+      - paymentReference
+      properties:
+          paymentReference:
+              type: string
+              example: ABC-1234
+          paymentId:
+              type: string
+          paymentStatus:
+              type: string
+          paymentProcessInfo:
+              $ref: '#/definitions/PaymentProcessInfo'
+      xml:
+          name: PaymentPostResponse
+
+# ~PaymentPutResponse ----------------------------
+
+  PaymentPutResponse:
+      type: object
+      required:
+      - paymentReference
+      properties:
+          paymentReference:
+              type: string
+              example: ABC-1234
+          paymentId:
+              type: string
+          paymentStatus:
+              type: string
+          paymentProcessInfo:
+              $ref: '#/definitions/PaymentProcessInfo'
+
+      xml:
+          name: PaymentPutResponse
+
+# ~FieldErrors ----------------------------
+
+  FieldError:
+      type: object
+      properties:
+          field:
+              type: string
+          message:
+              type: string
+      xml:
+          name: FieldError
+
+  FieldErrors:
+      type: object
+      properties:
+          fieldErrors:
+              type: array
+              items:
+                  $ref: "#/definitions/FieldError"
+      xml:
+          name: FieldErrors
+
+# ~ErrorResponse ----------------------------
+
+  ErrorResponse:
+      type: object
+      properties:
+          errorCode:
+            type: string
+          errorDescription:
+            type: string
+          errorDetails:
+            type: string
+          httpStatus:
+            type: string
+          requestReferenceNumber:
+            type: string
+          supplementErrorCode:
+            type: string
+          supplementErrorDescription:
+            type: string
+          timeStamp:
+            type: string
+          trace:
+            type: string
+          url:
+            type: string
+          validationErrors:
+            $ref: "#/definitions/FieldErrors"
+      xml:
+          name: ErrorResponse
+
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath:
+ - /selva-dharmaraj/PaymentAPI/1.0.0
+schemes:
+ - https
+ - http

@@ -1,0 +1,19 @@
+# ~PaymentBasicInfo ----------------------------
+
+  PaymentBasicInfo:
+      type: object
+      required:
+      - amount
+      properties:
+          amount:
+              type: number
+              format: double
+              description: Payment amount
+          currency:
+              type: string
+              description: Currency
+          paymentDate:
+              type: string
+              description: This field needs to be filled if fundingAccountSource = new
+          xml:
+              name: PaymentBasicInfo

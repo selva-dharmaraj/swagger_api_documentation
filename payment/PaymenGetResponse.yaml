@@ -1,0 +1,11 @@
+# ~PaymentGetResponse ----------------------------
+
+  PaymentGetResponse:
+      type: object
+      properties:
+          payments:
+              type: array
+              items:
+                $ref: '#/definitions/PaymentInfo'
+      xml:
+          name: PaymentGetResponse

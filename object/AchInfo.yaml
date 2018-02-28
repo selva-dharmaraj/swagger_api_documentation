@@ -1,0 +1,28 @@
+swagger: "2.0"
+# ~AchInfo ----------------------------
+
+  AchInfo:
+    type: object
+    required:
+    - fundingAccountNumber
+    - routingNumber
+    properties:
+        bankName:
+            type: string
+            example: Wellsfargo
+        fundingAccountNumber:
+            type: string
+            example: '3444539219'
+        routingNumber:
+            type: string
+            example: '091000019'
+        holderFullName:
+            type: string
+            example: Samuel Isac
+        subType:
+            type: string
+            example: CHECKING | SAVING
+        nickName:
+            type: string
+    xml:
+        name: AchInfo

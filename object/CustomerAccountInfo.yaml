@@ -1,0 +1,13 @@
+# ~CustomerAccountInfo ----------------------------
+
+  CustomerAccountInfo:
+      type: object
+      required:
+      - originalAccountNumber
+      properties:
+          originalAccountNumber:
+              type: string
+          customerId:
+              type: string
+      xml:
+          name: CustomerAccountInfo

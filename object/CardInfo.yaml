@@ -1,0 +1,30 @@
+# ~CardInfo ----------------------------
+
+CardInfo:
+    type: object
+    required:
+    - fundingAccountNumber
+    - expiryDate
+    properties:
+        cvv:
+            type: string
+            example: '123'
+        fundingAccountNumber:
+            type: string
+            example: '4111111111111111'
+        expiryDate:
+            type: string
+            example: MMYY
+        holderFullName:
+            type: string
+            example: Samuel Isac
+        subType:
+            type: string
+            example: Visa | Master
+        nickName:
+            type: string
+
+        addressInfo:
+            $ref: #definitians/AddressInfo
+    xml:
+        name: CardInfo
