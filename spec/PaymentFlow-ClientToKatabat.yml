@@ -2,71 +2,73 @@ swagger: "2.0"
 
 # Introduction ---------------------------------------------------------------------------------------------------------
 info:
-  title: "Katabat Payment API Integration - Specification Document"
+  title: "Katabat RESTful API Services - Specification Document"
   description: "
   # Introduction
 
-  This document defines the contract (API) between katabat and client system in order to pull and push
-  payment and related activities in real-time. Depends upon the business requirement, client system can
+  This document describes the contract (API) between Katabat and the client system for the purposes of conducting a pull and push
+  for payment and related activities in real-time. Depending on the business requirements, the client system can
   choose and expose specific services for integration.
 
 
-  There is two set of integration specification provided in this document.
+  There are two set of integration specifications provided in this document.
 
-  # Katabat to client System:
+  # Katabat to Client System: (Specification for this service will be shared separately)
 
-  These transactions are triggered based on the various payment-related activities performed by Agent (or) Customer
-  in Katabat System. In-order to enable these triggers at Katabat, client system must implement and the expose their service
-  following the specification provided in this document.
+  These transactions are triggered based on the various payment-related activities performed by an Agent or Customer on the Katabat Platform.
+  In order to enable these triggers at Katabat, client system must implement and expose their service utilizing the specification provided in this document.
+  Katabat Platform is equipped to consume individual services if enabled during implementation.
+  These service calls are synchronized therefore a business response to complete an action taken by an Agent or Customer is expected.
 
-  # The Agent / Customer actions triggering these transactions are:
+  # The Agent / Customer actions triggering these APT calls are:
 
   - Add Payment Method (ACH / Card)
 
   - Delete Payment Method
 
-  - Submit payment to be processed
+  - Create Payment to be processed
 
-  - Schedule payments for future processing.
+  - Schedule Payments for future processing
 
-  - Update scheduled payment.
+  - Update Scheduled payment
 
-  - Delete Scheduled payment.
+  - Delete Scheduled payment
 
-
-  As out of the box, Katabat system is equipped to push & pull data with any clients who can expose services by
-  following the REST API guidelines provided in the document.
 
   # Client System to Katabat:
 
-  Similar to 'Katabat to client System' service specification, Katabat system exposed set of standard API to all our
-  clients to push real-time data from their system based on various events occurred.  The client can utilize these
-  services to sync historical and active payment data from their system with Katabat system.
+  Similar to the 'Katabat To Client System' service specification, the Katabat system exposed a set of standard API's to all our of
+  clients to push real-time data from their system based on various events occurring.
+  The client can utilize these services to sync historical and active payment data from their system with Katabat Platform.
   These APIs are connected with Katabat UDS (Unified Data Store) which means the updated data will be immediately
   available for Agents and Customers.
 
-  # List of events from client system might trigger these API calls are:
+  # List of events from client system which may trigger these API calls are:
 
   - Payment status change (DELETED, REJECTED, PAID)
 
-  - Payments created outside katabat system (Check payments)
+  - Payments created outside Katabat Platform (Check payments)
 
-  - Funding accounts added outside katabat system.
+  - Funding accounts added outside Katabat Platform
 
-  - Funding accounts deleted outside katabat system.
+  - Funding accounts deleted outside of the Katabat Platform
 
 
   ## Technical Overview:
 
-  These specifications are for consuming and exposing data through REST API. REpresentational State Transfer (REST), or RESTful, web services provide interoperability between computer systems on the Internet.   The operations performed using the predefined CRUD HTTP methods GET, POST, PUT, DELETE. We support both data exchange formats JSON and XML based your implementation need.
+  These specifications are for consuming and exposing data through REST API on both the Katabat Platform and the client side.
+  REpresentational State Transfer (REST), or RESTful web services provide interoperability between computer systems on the Internet.
+  The operations are performed using the predefined CRUD HTTP methods GET, POST, PUT, DELETE.
+  We support both data exchange formats JSON and XML based your implementation need.
 
   # Authorization:
 
-  Services are accessible through only HTTPS (SSL) layer. Out of the box, Katabat supports two authorization option to consume your API service.
+  Services are accessible through only HTTPS (SSL) layer. Our standard implementation supports two authorization options to consume your API service.
 
   # API Token
 
-  Access token will be shared between system. Every request header must have the access token in order to access the service. If not '401 Unauthorized' HTTP status code should be returned.
+  Access token will be shared between systems. Every request header must have the access token in order to access the service.
+  If not '401 Unauthorized' HTTP status code will be returned.
 
 
       ***[HTTP Header]***
@@ -75,7 +77,8 @@ info:
 
   # Basic Authorization
 
-  User account (name, password) is shared between systems. Every request header must have the access token in order to access the service. If not '401 Unauthorized' HTTP status code should be returned.
+  User account (name, password) is shared between systems. Every request header must have the access token in order to access the service.
+  If not '401 Unauthorized' HTTP status code will be returned.
 
 
       ***[HTTP Header]***
@@ -108,10 +111,10 @@ externalDocs:
 
 tags:
 - name: "Funding Accounts"
-  description: "Katabat system uses this service exposed by client to sync up funding accounts data between Systems"
+  description: "This service will sync up Payment methods between the client system and Katabat Platform"
 
 - name: "Payments"
-  description: "Katabat system uses this service exposed by client to sync up payment data between systems"
+  description: "This service will sync up Payment Data between the client system and the Katabat platform"
 
 # Schemes --------------------------------------------------------------------------------------------------------------
 
